@@ -19,11 +19,16 @@
   * This PHP file uses the Slim Framework to construct a REST API.
   * See Cloudant.php for the database functionality
   */
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 require_once('./Cloudant.php');
 $app = new \Slim\Slim();
-$dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
+$dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
+
+$app->get('/', function () {
+  global $app;
+    $app->render('index.html');
+});
 
 $app->get('/api/visitors', function () {
   global $app;

@@ -9,7 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link href="public/styles.css" rel="stylesheet">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
             	//POST request to API to create a new visitor entry in the database
                 $.ajax({
 				  method: "POST",
-				  url: "index.php/api/visitors",
+				  url: "./api/visitors",
 				  contentType: "application/json",
 				  data: JSON.stringify({name: name })
 				})
@@ -50,7 +50,7 @@
 
         //Retreive all the visitors from the database
         function getNames(){
-          $.get("index.php/api/visitors")
+          $.get("./api/visitors")
               .done(function(data) {
                   if(data.length > 0) {
                     $('#databaseNames').html("Database contents: " + JSON.stringify(data));
