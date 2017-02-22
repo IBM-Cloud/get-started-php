@@ -74,21 +74,16 @@ View your app at: http://localhost:8000
 
 To deploy to {{site.data.keyword.Bluemix_notm}}, it can be helpful to set up a manifest.yml file. One is provided for you with the sample. Take a moment to look at it.
 
-The manifest.yml includes basic information about your app, such as the name, how much memory to allocate for each instance and the route. In this manifest.yml **random-route: true** generates a random route for your app to prevent your route from colliding with others.  You can replace **random-route: true** with **host: myChosenHostName**, supplying a host name of your choice. [Learn more...](/docs/manageapps/depapps.html#appmanifest)
+The manifest.yml includes basic information about your app, such as the name, how much memory to allocate for each instance and the route. In this manifest.yml **random-route: true** generates a random route for your app to prevent your route from colliding with others. You can replace **random-route: true** with **host: myChosenHostName**, supplying a host name of your choice. [Learn more...](/docs/manageapps/depapps.html#appmanifest)
  ```
- ---
  applications:
-    - path: .
-      memory: 256M
-      instances: 1
-      domain: mybluemix.net
-      name: GetStartedPHP
-      host: GetStartedPHP
-      disk_quota: 1024M       
+ - name: GetStartedPHP
+   random-route: true
+   memory: 128M
  ```
  {: codeblock}
 
-Edit the manifest.yml file and change the `name` and `host` from `GetStartedPHP` to your app name and host, <var class="keyword varname" data-hd-keyref="app_name">app_name</var>.
+Edit the manifest.yml file and change the `name` from `GetStartedPHP` to your app name, <var class="keyword varname" data-hd-keyref="app_name">app_name</var>.
 {: download}
 
 ## 4. Deploy the app
