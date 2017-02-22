@@ -1,5 +1,9 @@
 ---
 applications:
- - name: GetStartedPHP
-   random-route: true
-   memory: 256M
+   - path: .
+     memory: 256M
+     instances: 1
+     domain: mybluemix.net
+     name: GetStartedPHP
+     host: GetStartedPHP
+     disk_quota: 1024M
