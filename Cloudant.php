@@ -45,7 +45,6 @@ final class Cloudant {
 		$port = '443';
 		$username = getenv('CLOUDANT_USERNAME');
 		$password = getenv('CLOUDANT_PASSWORD');
-
 		if($vcapStr = getenv('VCAP_SERVICES')) {
 			$vcap = json_decode($vcapStr, true);
 			foreach ($vcap as $serviceTypes) {
@@ -70,9 +69,9 @@ final class Cloudant {
 		try {
 			$this->sag->setDatabase('mydb', true);
 			$this->createView();
-			$db_exists = true;
+			$this->db_exists = true;
 		} catch (Exception $e) {
-			$db_exists = false;
+			$this->db_exists = false;
 		}
     }
 

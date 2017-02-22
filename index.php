@@ -28,7 +28,6 @@ try {
 } catch (Exception $e) {
     error_log("No .env file found");
  }
-
 $app->get('/', function () {
   global $app;
     $app->render('index.html');
@@ -38,7 +37,6 @@ $app->get('/api/visitors', function () {
   global $app;
   $app->contentType('application/json');
   $visitors = array();
-  echo Cloudant::Instance()->isConnected();
   if(Cloudant::Instance()->isConnected()) {
     $visitors = Cloudant::Instance()->get();
   }
