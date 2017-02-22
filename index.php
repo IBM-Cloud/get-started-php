@@ -23,7 +23,11 @@ require 'vendor/autoload.php';
 require_once('./Cloudant.php');
 $app = new \Slim\Slim();
 $dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+try {
+  $dotenv->load();
+} catch (Exception $e) {
+    error_log("No .env file found");
+ }
 
 $app->get('/', function () {
   global $app;
@@ -34,6 +38,7 @@ $app->get('/api/visitors', function () {
   global $app;
   $app->contentType('application/json');
   $visitors = array();
+  echo Cloudant::Instance()->isConnected();
   if(Cloudant::Instance()->isConnected()) {
     $visitors = Cloudant::Instance()->get();
   }

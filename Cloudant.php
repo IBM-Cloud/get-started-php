@@ -23,7 +23,7 @@ require_once('./sag/Sag.php');
 final class Cloudant {
 	private static $inst = null;
     private $sag;
-		private $db_exists = true;
+		private $db_exists = false;
 
     public static function Instance() {
         if (self::$inst === null) {
@@ -72,8 +72,6 @@ final class Cloudant {
 			$this->createView();
 			$db_exists = true;
 		} catch (Exception $e) {
-
-			echo $e;
 			$db_exists = false;
 		}
     }
