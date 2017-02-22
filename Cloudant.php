@@ -50,7 +50,7 @@ final class Cloudant {
 			$vcap = json_decode($vcapStr, true);
 			foreach ($vcap as $serviceTypes) {
 				foreach ($serviceTypes as $service) {
-					if($service['name'] == 'todo-db-php') {
+					if($service['label'] == 'cloudantNoSQLDB') {
 						$credentials = $service['credentials'];
 						$username = $credentials['username'];
 						$password = $credentials['password'];
@@ -77,7 +77,7 @@ final class Cloudant {
     }
 
     /**
-	 * Transforms the ToDo JSON from the DB to the JSON
+	 * Transforms the Visitor JSON from the DB to the JSON
 	 * the client will expect.
 	 */
     private function toClientVisitor($couchVisitor) {
@@ -114,7 +114,7 @@ final class Cloudant {
 	}
 
 	/**
-	 * Creates a new ToDo in the DB.
+	 * Creates a new Visitor in the DB.
 	 */
 	public function post($visitor) {
 		$resp = $this->sag->post($visitor);
@@ -123,7 +123,7 @@ final class Cloudant {
 	}
 
 	/**
-	 * Updates a ToDo in the DB.
+	 * Updates a Visitor in the DB.
 	 */
 	public function put($id, $visitor) {
 		$couchTodo = $this->sag->get($id)->body;
@@ -136,7 +136,7 @@ final class Cloudant {
 	}
 
 	/**
-	 * Deletes a ToDo from the DB.
+	 * Deletes a Visitor from the DB.
 	 */
 	public function delete($id) {
 		$rev = $this->sag->get($id)->body->_rev;
