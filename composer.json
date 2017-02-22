@@ -1,5 +1,6 @@
 {
-  "require": {
-    "ext-mysqli": "*"
-  }
+    "require": {
+        "slim/slim": "2.*",
+        "vlucas/phpdotenv": "^2.4"
+    }
 }
