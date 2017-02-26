@@ -1,7 +1,12 @@
 # Getting started with PHP on Bluemix
 
 This guide will take you through the steps to get started with a simple PHP application in Bluemix and help you:
-* set up a development environment
+- Set up a development environment
+- Download sample code
+- Run the application locally
+- Run the application on Bluemix Cloud Foundry
+- Add a Bluemix Database service
+- Connect to the database from your local application
 
 ## Prerequisites
 
