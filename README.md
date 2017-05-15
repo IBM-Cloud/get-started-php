@@ -67,6 +67,7 @@ Replace the *API-endpoint* in the command with an API endpoint from the followin
 |:-------------------------------|:---------------|
 | https://api.ng.bluemix.net     | US South       |
 | https://api.eu-gb.bluemix.net  | United Kingdom |
+| https://api.eu-de.bluemix.net  | Germany        |
 | https://api.au-syd.bluemix.net | Sydney         |
 
 Login to your Bluemix account
