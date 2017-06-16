@@ -40,18 +40,22 @@ $app->get('/api/visitors', function () {
     $visitors = array();
     if(Cloudant::Instance()->isConnected()) {
       $visitors = Cloudant::Instance()->get();
+      foreach($visitors as $key => $value) {
+          $visitors[$key] = AntiXSS::sanitizeInput($value);
+      }
     }
     echo json_encode($visitors);
 });
 
 $app->post('/api/visitors', function() {
     global $app;
-    $visitor = AntiXSS::sanitizeInput(json_decode($app->request()->getBody(), true));
+    $visitor = json_decode($app->request()->getBody(), true);
+    $sanitizedName = AntiXSS::sanitizeInput($visitor['name']);
     if(Cloudant::Instance()->isConnected()) {
       Cloudant::Instance()->post($visitor);
-      echo sprintf("Hello %s, I've added you to the database!", $visitor['name']);
+      echo sprintf("Hello %s, I've added you to the database!", $sanitizedName);
     } else {
-      echo sprintf("Hello %s!", $visitor['name']);
+      echo sprintf("Hello %s!", $sanitizedName);
     }
 });
 
@@ -64,7 +68,8 @@ $app->delete('/api/visitors/:id', function($id) {
 $app->put('/api/visitors/:id', function($id) {
     global $app;
     $visitor = json_decode($app->request()->getBody(), true);
-    echo json_encode(Cloudant::Instance()->put($id, AntiXSS::sanitizeInput($visitor)));
+    $result = Cloudant::Instance()->put($id, $visitor);
+    echo json_encode(AntiXSS::sanitizeInput($result));
 });
 
 $app->run();
