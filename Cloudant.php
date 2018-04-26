@@ -89,15 +89,11 @@ final class Cloudant {
 	 * Creates a view to use in the DB if one does not already exist.
 	 */
 	private function createView() {
-		try {
-			$view = $this->sag->get('_design/visitors');
-		} catch(SagCouchException $e) {
-			$allvisitors = array('reduce' => '_count',
-				'map' => 'function(doc){if(doc.name != null){emit(doc.order,{name: doc.name})}}');
-			$views = array('allvisitors' => $allvisitors);
-			$designDoc = array('views' => $views);
-			$this->sag->put('_design/visitors', $designDoc);
-		}
+		$allvisitors = array('reduce' => '_count',
+		'map' => 'function(doc){if(doc.name != null){emit(doc.order,{name: doc.name})}}');
+		$views = array('allvisitors' => $allvisitors);
+		$designDoc = array('views' => $views);
+		$this->sag->put('_design/visitors', $designDoc);
 	}
 
 	/**
@@ -105,7 +101,7 @@ final class Cloudant {
 	 */
 	public function get() {
 		$visitors = array();
-		$docs = $this->sag->get('_design/visitors/_view/allvisitors?reduce=false')->body;
+		$docs = json_decode($this->sag->get('_design/visitors/_view/allvisitors?reduce=false')->body);
 		foreach ($docs->rows as $row) {
 			$visitors[] = $row->value->name;;
 		}

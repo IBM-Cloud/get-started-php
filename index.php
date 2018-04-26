@@ -44,13 +44,14 @@ $app->get('/api/visitors', function () {
 });
 
 $app->post('/api/visitors', function() {
-	global $app;
+  global $app;
+  $app->contentType('application/json');
   $visitor = json_decode($app->request()->getBody(), true);
   if(Cloudant::Instance()->isConnected()) {
-    Cloudant::Instance()->post($visitor);
-    echo sprintf("Hello %s, I've added you to the database!", $visitor['name']);
+    $doc = Cloudant::Instance()->post($visitor);
+    echo json_encode($doc);
   } else {
-    echo sprintf("Hello %s!", $visitor['name']);
+    echo json_encode($visitor);
   }
 });
 
