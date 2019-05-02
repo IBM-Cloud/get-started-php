@@ -46,6 +46,7 @@ final class Cloudant {
 		$username = '5a1c4841-e59c-4a0e-be2f-6a11e95bcf3f-bluemix';
 		$password = 'd0cc6e2bb3e9b4c00261135491b5a6b056008ac308fe6c6338c87a26c7e60d5d';
 		echo "Getting host port and username password";
+		echo "updates";
 		if($vcapStr = getenv('VCAP_SERVICES')) {
 			$vcap = json_decode($vcapStr, true);
 			foreach ($vcap as $serviceTypes) {
