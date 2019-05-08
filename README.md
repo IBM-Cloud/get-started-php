@@ -61,7 +61,7 @@ cf api <API-endpoint>
    ```
    {: pre}
 
-Replace the *API-endpoint* in the command with an API endpoint from the following list.
+Replace the *API-endpoint* in the command with an API endpoint from the following list, note that endpoint region will need to match the region of your space is set in (not the org). 
 
 |URL                             |Region          |
 |:-------------------------------|:---------------|
