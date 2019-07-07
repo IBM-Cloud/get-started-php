@@ -1,4 +1,4 @@
-<?php
+AAA <?php
 /*
  * Copyright IBM Corp. 2016
  *
