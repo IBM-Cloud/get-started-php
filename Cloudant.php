@@ -33,6 +33,7 @@ final class Cloudant {
     }
 
 		public function isConnected() {
+      error_log("is_connected: $this->db_exists");
 			return $this->db_exists;
 		}
 
@@ -64,15 +65,22 @@ final class Cloudant {
 			}
 		}
 		$this->sag = new Sag($host, $port);
+                $this->sag->decode(false);
 		$this->sag->useSSL(true);
 		$dbsession = $this->sag->login($username, $password);
-		try {
+	  $this->db_exists = true;
+	try {
 			$this->sag->setDatabase('mydb', true);
+	
+	} catch (Exception $e) {
+                error_log("Error creating DB $e ");
+		$this->db_exists = false;
+        }
+        try {
 			$this->createView();
-			$this->db_exists = true;
-		} catch (Exception $e) {
-			$this->db_exists = false;
-		}
+	} catch (Exception $e) {
+                error_log("Error creating view $e ");
+        }
     }
 
     /**
@@ -101,7 +109,9 @@ final class Cloudant {
 	 */
 	public function get() {
 		$visitors = array();
-		$docs = json_decode($this->sag->get('_design/visitors/_view/allvisitors?reduce=false')->body);
+		$obj = $this->sag->get('_design/visitors/_view/allvisitors?reduce=false')->body;
+		#error_log("OBJ is $obj->body");
+		$docs = json_decode($obj);
 		foreach ($docs->rows as $row) {
 			$visitors[] = $row->value->name;;
 		}
@@ -112,8 +122,12 @@ final class Cloudant {
 	 * Creates a new Visitor in the DB.
 	 */
 	public function post($visitor) {
+#                $this->sag->decode(true);
 		$resp = $this->sag->post($visitor);
-		$visitor['id'] = $resp->body->id;
+#                $this->sag->decode(false);
+# error_log("$resp $resp->body[0]\n");
+		#$visitor['id'] = $resp->body->id;
+                # Why can't we get at the ID here?
 		return $visitor;
 	}
 
