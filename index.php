@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright IBM Corp. 2016
+ * Copyright IBM Corp. 2016,2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,12 +45,17 @@ $app->get('/api/visitors', function () {
 
 $app->post('/api/visitors', function() {
   global $app;
+    error_log("POST in /api/visitors");
   $app->contentType('application/json');
-  $visitor = json_decode($app->request()->getBody(), true);
+  $visitor = $app->request()->getBody();
+  #$visitor = json_decode($app->request()->getBody(), true);
   if(Cloudant::Instance()->isConnected()) {
     $doc = Cloudant::Instance()->post($visitor);
-    echo json_encode($doc);
+    error_log("POST error: $visitor $doc");
+    echo $doc;
+    #echo json_encode($doc);
   } else {
+    error_log("POST error: $visitor");
     echo json_encode($visitor);
   }
 });
