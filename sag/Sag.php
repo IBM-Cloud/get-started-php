@@ -16,7 +16,7 @@
 require_once('SagException.php');
 require_once('SagCouchException.php');
 require_once('httpAdapters/SagNativeHTTPAdapter.php');
-require_once('httpAdapters/SagCURLHTTPAdapter.php');
+#require_once('httpAdapters/SagCURLHTTPAdapter.php');
 
 /**
  * The Sag class provides the core functionality for talking to CouchDB.
@@ -98,7 +98,8 @@ class Sag {
    */
   public function setHTTPAdapter($type = null) {
     if(!$type) {
-      $type = extension_loaded("curl") ? self::$HTTP_CURL : self::$HTTP_NATIVE_SOCKETS;
+      #$type = extension_loaded("curl") ? self::$HTTP_CURL : self::$HTTP_NATIVE_SOCKETS;
+      $type = self::$HTTP_NATIVE_SOCKETS;
     }
 
     // nothing to be done
@@ -716,15 +717,16 @@ class Sag {
    * @param mixed $filterQueryParams An object or associative array of
    * parameters to be passed to the filter function via query_params. Only used
    * if $filter is set.
+   * @param array $doc_ids Array of document IDs to be synchronized
    *
    * @return mixed
    */
-  public function replicate($src, $target, $continuous = false, $createTarget = null, $filter = null, $filterQueryParams = null) {
-    if(empty($src) || !is_string($src)) {
+  public function replicate($src, $target, $continuous = false, $createTarget = null, $filter = null, $filterQueryParams = null, $doc_ids = null) {
+    if(empty($src) || (!is_string($src) && !is_object($src))) {
       throw new SagException('replicate() is missing a source to replicate from.');
     }
 
-    if(empty($target) || !is_string($target)) {
+    if(empty($target) || (!is_string($target)) && !is_object($target)) {
       throw new SagException('replicate() is missing a target to replicate to.');
     }
 
@@ -744,6 +746,10 @@ class Sag {
       if(isset($filterQueryParams) && !is_object($filterQueryParams) && !is_array($filterQueryParams)) {
         throw new SagException('filterQueryParams needs to be an object or an array');
       }
+    }
+
+    if (isset($doc_ids) && !is_array($doc_ids)) {
+      throw new SagException('Doc IDs needs to be an array.');
     }
 
     $data = new stdClass();
@@ -768,6 +774,10 @@ class Sag {
       if($filterQueryParams) {
         $data->filterQueryParams = $filterQueryParams;
       }
+    }
+
+    if ($doc_ids) {
+    	$data->doc_ids = $doc_ids;
     }
 
     return $this->procPacket('POST', '/_replicate', json_encode($data));
