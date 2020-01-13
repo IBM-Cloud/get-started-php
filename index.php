@@ -1,75 +1,39 @@
-<?php
-/*
- * Copyright IBM Corp. 2016,2019
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+<html>
+<head>
+	<title>CREATE-Nike</title>
+	<style>	
+		body{background-color:lightgrey;margin:0px;font-family:Verdana}
+		.header{height:60px;background-color:grey;color:white;font-weight:bold;}
+		.content{padding:20px;padding-bottom:20px}
+		.links{height:200px;margin:20px;float:left;background-color:grey;width:270px}
+		.links:hover{height:200px;margin:20px;float:left;background-color: #48575F;}
+		.links a{text-decoration:none;color:white;position:relative}
+		.links a:hover{text-decoration:none;color:black;position:relative}
+		h3{padding:70px;;display:block;text-aligh:center}
+		.container{padding:50px}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<span style="float:left" class="content">
+			<img src="nike.png" height="20" width="45" align="left"> Welcome To CREATE Team
+		</span>
+		<span style="float:right;color:black" class="content">
+			Nike &nbsp;<img src="nike.png" height="20" width="45"> | Just Do It. 
+		</span>
+	</div>
+	<div class="container">
 
- /**
-  * This PHP file uses the Slim Framework to construct a REST API.
-  * See Cloudant.php for the database functionality
-  */
-require 'vendor/autoload.php';
-require_once('./Cloudant.php');
-$app = new \Slim\Slim();
-$dotenv = new Dotenv\Dotenv(__DIR__);
-try {
-  $dotenv->load();
-} catch (Exception $e) {
-    error_log("No .env file found");
- }
-$app->get('/', function () {
-  global $app;
-    $app->render('index.html');
-});
+	<div class="links"><h3><a href="http://pcx.nike.com/" target="_blank">PCX-PROD</a></h3> </div>
+	<div class="links"><h3><a href="http://pcxtrain.nike.com/" target="_blank">PCX-TRAIN</a></h3></div>
+	<div class="links"><h3><a href="http://nke-lnx-pcs-p346:8080/ords/cdb/f?p=101:LOGIN_DESKTOP:15034476731986:::::" target="_blank">CDB</a></h3></div>
+	<div class="links"><h3><a href="http://fwpdm.nike.com/Windchill/" target="_blank">PCM</a></h3></div> 
+	<div class="links"><h3><a href="https://www.ultimatix.net/" target="_blank">Ultimatix</a></h3> </div>
+	<div class="links"><h3><a href="https://niketech.service-now.com/" target="_blank">S-Now</a></h3> </div>
+		<div class="links"><h3><a href="http://beavertn-svr-vs/Manfred/Administration.aspx" target="_blank">MANFRED</a></h3> </div>
+	<div class="links"><h3><a href="https://nike.account.box.com/login" target="_blank">Box Docs.</a></h3> </div>
+	
+	</div>
 
-$app->get('/api/visitors', function () {
-  global $app;
-  $app->contentType('application/json');
-  $visitors = array();
-  if(Cloudant::Instance()->isConnected()) {
-    $visitors = Cloudant::Instance()->get();
-  }
-  echo json_encode($visitors);
-});
-
-$app->post('/api/visitors', function() {
-  global $app;
-    error_log("POST in /api/visitors");
-  $app->contentType('application/json');
-  $visitor = $app->request()->getBody();
-  #$visitor = json_decode($app->request()->getBody(), true);
-  if(Cloudant::Instance()->isConnected()) {
-    $doc = Cloudant::Instance()->post($visitor);
-    error_log("POST error: $visitor $doc");
-    echo $doc;
-    #echo json_encode($doc);
-  } else {
-    error_log("POST error: $visitor");
-    echo json_encode($visitor);
-  }
-});
-
-$app->delete('/api/visitors/:id', function($id) {
-	global $app;
-	Cloudant::Instance()->delete($id);
-    $app->response()->status(204);
-});
-
-$app->put('/api/visitors/:id', function($id) {
-	global $app;
-	$visitor = json_decode($app->request()->getBody(), true);
-    echo json_encode(Cloudant::Instance()->put($id, $visitor));
-});
-
-$app->run();
+</body>
+</html>
