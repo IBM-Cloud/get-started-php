@@ -12,7 +12,7 @@ This guide will take you through the steps to get started with a simple PHP appl
 
 You'll need the following:
 * [IBM Cloud account](https://console.ng.bluemix.net/registration/)
-* [Cloud Foundry CLI](https://github.com/cloudfoundry/cli#downloads)
+* [IBM Cloud CLI](https://cloud.ibm.com/docs/cli/reference/ibmcloud/download_cli.html)
 * [Git](https://git-scm.com/downloads)
 * [PHP](http://php.net/downloads.php)
 * [Composer](https://getcomposer.org/download/)
@@ -29,7 +29,7 @@ cd get-started-php
 
 Install dependencies
 ```
-php composer.phar install
+composer install
 ```
 
 Run the app
@@ -43,7 +43,7 @@ View your app at: http://localhost:8000
 
 To deploy to IBM Cloud, it can be helpful to set up a manifest.yml file. One is provided for you with the sample. Take a moment to look at it.
 
-The manifest.yml includes basic information about your app, such as the name, how much memory to allocate for each instance and the route. In this manifest.yml **random-route: true** generates a random route for your app to prevent your route from colliding with others.  You can replace **random-route: true** with **host: myChosenHostName**, supplying a host name of your choice. [Learn more...](https://console.bluemix.net/docs/manageapps/depapps.html#appmanifest)
+The manifest.yml includes basic information about your app, such as the name, how much memory to allocate for each instance and the route. In this manifest.yml **random-route: true** generates a random route for your app to prevent your route from colliding with others.  You can replace **random-route: true** with **host: myChosenHostName** (without the domain name), supplying a host name of your choice.
  ```
  applications:
  - name: GetStartedPHP
@@ -53,41 +53,43 @@ The manifest.yml includes basic information about your app, such as the name, ho
 
 ## 4. Deploy the app
 
-You can use the Cloud Foundry CLI to deploy apps.
+You can use the IBM Cloud CLI to deploy apps.
 
-Choose your API endpoint
-   ```
-cf api <API-endpoint>
-   ```
-   {: pre}
-
-Replace the *API-endpoint* in the command with an API endpoint from the following list.
-
-|URL                             |Region          |
-|:-------------------------------|:---------------|
-| https://api.ng.bluemix.net     | US South       |
-| https://api.eu-gb.bluemix.net  | United Kingdom |
-| https://api.eu-de.bluemix.net  | Germany        |
-| https://api.au-syd.bluemix.net | Sydney         |
-
-Login to your IBM Cloud account
+Log in to your IBM Cloud account, and select an API endpoint.
 
    ```
-cf login
+ibmcloud login
    ```
+
+If you have a federated user ID, instead use the following command to log in with your single sign-on ID. See [Logging in with a federated ID](https://cloud.ibm.com/docs/iam?topic=iam-federated_id) to learn more.
+  ```
+ibmcloud login --sso
+  ```
+
+Target a Cloud Foundry org and space:
+
+  ```	  
+ibmcloud target --cf
+  ```
+
+If you don't have an org or a space set up, see [Adding orgs and spaces](https://cloud.ibm.com/docs/account/orgs_spaces.html).
 
 From within the *get-started-php* directory push your app to IBM Cloud
+
    ```
-cf push
+ibmcloud cf push
    ```
 
-This can take a minute. If there is an error in the deployment process you can use the command `cf logs <Your-App-Name> --recent` to troubleshoot.
+This can take a minute. If there is an error in the deployment process you can use the command `ibmcloud cf logs <Your-App-Name> --recent` to troubleshoot.
 
-When deployment completes you should a message indicating that your app is running.  View your app at the URL listed in the output of the push command.  You can also issue the
+When deployment completes you should a message indicating that your app is running.  View your app at the URL listed in the output of the push command. You can also issue the following command to view your apps status and see the URL.
+
   ```
-cf apps
+ibmcloud cf apps
   ```
-command to view your apps status and see the URL.
+
+You can also go to the IBM Cloud [Resource List](https://cloud.ibm.com/resources) to view your app.
+
 
 ## 5. Add a database
 
@@ -111,9 +113,9 @@ We're now going to update your local code to point to this database. We'll creat
   CLOUDANT_PASSWORD=
   ```
 
-2. Back in the IBM Cloud UI, select your App -> Connections -> Cloudant -> View Credentials
+2. Back in the IBM Cloud UI, on the Service Details page for your app, click **Service credentials** in the sidebar. Click **New credential** and then **Add**. Open the **View credentials** dropdown to reveal the credentials.
 
-3. Copy and paste just the `url` from the credentials to the `CLOUDANT_URL` field of the `.env` file and save the changes.  The result will be something like:
+3. Copy and paste values of the `CLOUDANT_HOST`, `CLOUDANT_USERNAME` and `CLOUDANT_PASSWORD` fields into the `.env` file and save the changes.  The result will be something like:
   ```
   CLOUDANT_HOST=abc...yz.cloudant.com
   CLOUDANT_USERNAME=abc...yz
