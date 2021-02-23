@@ -1,5 +1,5 @@
 ---
 applications:
- - name: GetStartedPHP
+ - name: Project Gps
    random-route: true
    memory: 128M
